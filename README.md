@@ -159,16 +159,7 @@ After this initialization phase, the actual execution begins: agents are given t
 
 The output shown at each iteration by the Python program is simply the current iteration and the average capital of agents divided by type. At the end, summary graphs are displayed with the x-axis representing time (number of iterations) and the y-axis representing value.
 
-Some tests were performed (in addition to those shown in Chapter 4) where all 160 agents created were assumed to apply a random strategy:
-
-![First example of stock value variation](docs/images/fig3_1_stock_value_example_1.png)
-*Figure 3.1: First example of stock value variation.*
-
-![Second example of stock value variation](docs/images/fig3_2_stock_value_example_2.png)
-*Figure 3.2: Second example of stock value variation.*
-
-![Third example of stock value variation](docs/images/fig3_3_stock_value_example_3.png)
-*Figure 3.3: Third example of stock value variation.*
+Tests were performed where all 160 agents created applied a random strategy, producing stock value charts comparable to real-world cases.
 
 ---
 
@@ -178,45 +169,27 @@ Let us now examine in detail the strategies implemented within the Agent class, 
 
 ### 4.1 Strategy 01 - Random
 
-This first strategy is naive, as it takes into account neither the state of the stock nor the Market, but only the budget available to the agent. It operates on the stock randomly. This strategy is intended for a small number of Retail agents, as it is plausible to think that agents in their early stages have not yet implemented more complex strategies. Figure 4.1 shows an execution example where all 155 agents present use this strategy. The data is not particularly indicative since no group of agents manages to make a profit over time, although the stock trend is comparable to real-world cases.
-
-![Execution example with agents using Strategy 01](docs/images/fig4_1_strategy_01.png)
-*Figure 4.1: Execution example with agents operating with Strategy 01.*
+This first strategy is naive, as it takes into account neither the state of the stock nor the Market, but only the budget available to the agent. It operates on the stock randomly. This strategy is intended for a small number of Retail agents, as it is plausible to think that agents in their early stages have not yet implemented more complex strategies. In testing, no group of agents manages to make a profit over time with this strategy, although the stock trend is comparable to real-world cases.
 
 ### 4.2 Strategy 02 - Trend Following
 
-This strategy, before operating on the stock, creates a history of the stock's recent values, then tries to identify ascending or descending moments to attempt short-term gains. Applicable to Retail agents. From Figure 4.2, it can be seen how the strategy performs well during the initial iterations with a slight increase in the wealth of BIG agents (who implement this strategy). However, when the stock begins to oscillate rapidly, the strategy proves inadequate.
-
-![Execution example with BIG agents using Strategy 02](docs/images/fig4_2_strategy_02.png)
-*Figure 4.2: Execution example with BIG agents operating with Strategy 02.*
+This strategy, before operating on the stock, creates a history of the stock's recent values, then tries to identify ascending or descending moments to attempt short-term gains. Applicable to Retail agents. The strategy performs well during the initial iterations with a slight increase in the wealth of BIG agents (who implement this strategy). However, when the stock begins to oscillate rapidly, the strategy proves inadequate.
 
 ### 4.3 Strategy 03 - Conservative
 
-Strategy 03 is more conservative compared to the others and applies over short time frames, possibly during moments of strong stock oscillation. After a first order, it waits until the gain exceeds a certain threshold before placing another order to close the position. There is the possibility of having to hold the position for a long time due to unexpected stock variations in the opposite direction of the expectation. The possible gains tend to be low but with a higher degree of certainty compared to other strategies. The reported example (Figure 4.3) shows how, despite several oscillations, the value of the BIG agents' portfolio (operating with Strategy 03) remains slightly above the initial value for almost the entire simulation duration.
-
-![Execution example with BIG agents using Strategy 03](docs/images/fig4_3_strategy_03.png)
-*Figure 4.3: Execution example with BIG agents operating with Strategy 03.*
+Strategy 03 is more conservative compared to the others and applies over short time frames, possibly during moments of strong stock oscillation. After a first order, it waits until the gain exceeds a certain threshold before placing another order to close the position. There is the possibility of having to hold the position for a long time due to unexpected stock variations in the opposite direction of the expectation. The possible gains tend to be low but with a higher degree of certainty compared to other strategies. In testing, despite several oscillations, the value of the BIG agents' portfolio (operating with Strategy 03) remains slightly above the initial value for almost the entire simulation duration.
 
 ### 4.4 Strategy 04 - Speculative (Top Agents)
 
-The principle behind this strategy is that agents with larger capital can influence the stock's trend through large-volume orders. This strategy is intended for TOP agents. An example of this strategy (Figure 4.4) shows how it remains highly dependent on the stock's value: it certainly influences the value but does not manage to extract a *guaranteed* profit.
-
-![Execution example with TOP agents using Strategy 04](docs/images/fig4_4_strategy_04.png)
-*Figure 4.4: Execution example with TOP agents operating with Strategy 04.*
+The principle behind this strategy is that agents with larger capital can influence the stock's trend through large-volume orders. This strategy is intended for TOP agents. In testing, it remains highly dependent on the stock's value: it certainly influences the value but does not manage to extract a *guaranteed* profit.
 
 ### 4.5 Strategy 05 - Order Book Analysis
 
-In this strategy, before placing any order, the orders placed by other agents are analyzed to try to predict the market's direction. Placed orders are visible to everyone, as in the real-world case. As shown in Figure 4.5, BIG agents tend to have a positive gain over the long term.
-
-![Execution example with BIG agents using Strategy 05](docs/images/fig4_5_strategy_05.png)
-*Figure 4.5: Execution example with BIG agents operating with Strategy 05.*
+In this strategy, before placing any order, the orders placed by other agents are analyzed to try to predict the market's direction. Placed orders are visible to everyone, as in the real-world case. In testing, BIG agents tend to have a positive gain over the long term.
 
 ### 4.6 Strategy 06 - Insider Trading
 
-This strategy demonstrates an example of insider trading, executed by agents who have knowledge of external events that will affect the stock's value. As shown in the example (Figure 4.6), BIG agents implement Strategy 06 and manage to achieve a positive gain over the long term. The fluctuations in profit are due to the inability to close the position instantaneously, having to wait for the market to make this possible.
-
-![Execution example with BIG agents using Strategy 06](docs/images/fig4_6_strategy_06.png)
-*Figure 4.6: Execution example with BIG agents operating with Strategy 06.*
+This strategy demonstrates an example of insider trading, executed by agents who have knowledge of external events that will affect the stock's value. BIG agents implementing Strategy 06 manage to achieve a positive gain over the long term. The fluctuations in profit are due to the inability to close the position instantaneously, having to wait for the market to make this possible.
 
 ### 4.7 Strategy 07 - Market Manipulation (Aggiotaggio)
 
@@ -226,12 +199,6 @@ The final strategy implements market manipulation. It is the most complex strate
 - **Follower**: they wait for the orders placed by investors and follow them, profiting from the movement
 
 The two roles switch over time to allow everyone to profit through this mechanism. Synchronization occurs through a semaphore structure: each agent must complete their task before everyone can move to the next operation.
-
-![Execution example with TOP and BIG agents using Strategy 07](docs/images/fig4_7_strategy_07.png)
-*Figure 4.7: Execution example with TOP and BIG agents operating with Strategy 07.*
-
-![Breakdown of agents performing market manipulation](docs/images/fig4_8_manipulation_agents.png)
-*Figure 4.8: Breakdown of agents performing market manipulation only.*
 
 ---
 
@@ -259,19 +226,6 @@ Agent_Base_Market_Simulator/
 ├── LICENSE
 ├── config/
 │   └── conf.txt              # Simulation configuration file
-├── docs/
-│   └── images/               # Figures from the report
-│       ├── fig3_1_stock_value_example_1.png
-│       ├── fig3_2_stock_value_example_2.png
-│       ├── fig3_3_stock_value_example_3.png
-│       ├── fig4_1_strategy_01.png
-│       ├── fig4_2_strategy_02.png
-│       ├── fig4_3_strategy_03.png
-│       ├── fig4_4_strategy_04.png
-│       ├── fig4_5_strategy_05.png
-│       ├── fig4_6_strategy_06.png
-│       ├── fig4_7_strategy_07.png
-│       └── fig4_8_manipulation_agents.png
 └── src/
     ├── main.py                # Entry point - simulation runner
     ├── Agente.py              # Agent class with all strategies
