@@ -1,4 +1,5 @@
 #Sistema Economico ad Agenti#
+import os
 import random
 import datetime
 import math
@@ -191,7 +192,7 @@ def exe():
 
 
 
-initialization('conf.txt')
+initialization(os.path.join(os.path.dirname(__file__), '..', 'config', 'conf.txt'))
 exe()
 
 
